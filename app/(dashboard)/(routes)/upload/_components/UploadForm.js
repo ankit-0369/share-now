@@ -58,7 +58,7 @@ function UploadForm({handleUpload, progress}) {
    
     
 
-    { progress? <ProgressBar progress={progress} />:<button disabled= {!file} className='px-4 py-2 w-[30%] text-xl rounded-2xl
+    { progress>=0? <ProgressBar progress={progress} />:<button disabled= {!file} className='px-4 py-2 w-[30%] text-xl rounded-2xl
      bg-primary text-white disabled:bg-gray-500 text-center'
      onClick={() => handleUpload(file)}
      >Upload</button>

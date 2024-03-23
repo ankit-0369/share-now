@@ -12,8 +12,24 @@ function DownloadFile({params}) {
 
     useEffect(() => {
 
+      const getFileInfo = async () => {
+
+        console.log("Params: ", '/f/'+params?.fileId);
+        const fileRef = doc(db, "uploadedFiles",params?.fileId);
+        const fileSnap = await getDoc(fileRef);
+        if (fileSnap.exists()) {
+            console.log("FileSnap: ", fileSnap.data())
+            setFile(fileSnap.data())
+            console.log("fileSNAP: ", file);
+        } else {
+            // docSnap.data() will be undefined in this case
+            console.log("No such document!");
+        }
+
+    }
+
         getFileInfo()
-    },[])
+    },[getFileInfo])
 
     const getFileInfo = async () => {
 

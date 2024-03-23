@@ -10,7 +10,7 @@ function Upgrade() {
   <div className="mx-auto max-w-screen-xl px-4 py-32 lg:flex ">
     <div className="mx-auto max-w-xl text-center">
       <h1 className="text-2xl  font-extrabold sm:text-5xl">
-        Well, 😎 <span className='text-primary'>No Need</span>  it's Completely
+        Well, 😎 <span className='text-primary'>No Need</span>  it&apos;s Completely
         <span className='text-primary'> Free  </span>Now🤩
         Enjoy Sharing files <span className='text-primary'>Secretely</span>
        

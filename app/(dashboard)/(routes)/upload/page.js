@@ -12,7 +12,7 @@ import { useRouter } from 'next/navigation'
 
 function Upload() {
  
- const [progress, setProgress]= useState(0)
+ const [progress, setProgress]= useState()
  const [uploadDone, setUploadDone]= useState(false)
  const [urlId, setUrlId]= useState()
 const {user} = useUser()
@@ -85,7 +85,7 @@ const router= useRouter()
       router.push('/file-preview/'+urlId)
     }, 2000);
 
-  }, [uploadDone == true])
+  }, [uploadDone, router, setUploadDone, urlId])
 
 
 

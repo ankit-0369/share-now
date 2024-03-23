@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import SideNav from './_components/SideNav'
 import TopHeader from './_components/TopHeader'
 
-function layout({ children }) {
+function Layout({ children }) {
 
   const [showSideNav, setshowSideNav]= useState(false)
 
@@ -31,4 +31,4 @@ function layout({ children }) {
   )
 }
 
-export default layout
+export default Layout
