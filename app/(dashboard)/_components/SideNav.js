@@ -13,7 +13,7 @@ function SideNav({ show }) {
       icon: Upload
     },
     {
-      id: 1,
+      id: 2,
       name: 'Files',
       path: '/files',
       icon: File
@@ -44,7 +44,7 @@ function SideNav({ show }) {
           {
             menu.map((item, index) => (
 
-              <Link href={item.path}>
+              <Link href={item.path} key={item.id}>
 
                 <button 
                 key={item.id}
