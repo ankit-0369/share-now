@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import SideNav from './_components/SideNav'
 import TopHeader from './_components/TopHeader'
-import { AlignJustify } from 'lucide-react'
+
 function layout({ children }) {
 
   const [showSideNav, setshowSideNav]= useState(false)

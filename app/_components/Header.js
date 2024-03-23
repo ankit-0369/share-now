@@ -15,7 +15,11 @@ function Header() {
       <div className="flex-1 md:flex md:items-center md:gap-12">
         <a className="block text-primary" href="/">
           {/* <span className="sr-only">Home</span> */}
-          <Image src= './logo.svg' height={50} width={45}/>
+          <Image 
+          src= './logo.svg' 
+          alt='logo'
+          height={50}
+           width={45}/>
         </a>
       </div>
 

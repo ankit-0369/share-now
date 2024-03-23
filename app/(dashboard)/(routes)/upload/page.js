@@ -5,7 +5,7 @@ import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/
 import UploadForm from './_components/UploadForm'
 import React, { useEffect, useState } from 'react'
 import { doc, getFirestore, setDoc } from "firebase/firestore";
-
+import UploadAlert from './_components/UploadAlert'
 import { generateId } from '../../../_utils/generateId'
 import { useUser } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation'
@@ -59,12 +59,13 @@ const router= useRouter()
     const db = getFirestore(app);
     const id= generateId().toString()
       console.log("id is here: ",id)
+      console.log("shorturl: ", process.env.NEXT_PUBLIC_BASE_URL+'/f/' +id );
     await setDoc(doc(db, "uploadedFiles", id), {
       name: file?.name,
       size: file?.size,
       type: file?.type,
       fileUrl: fileUrl,
-      shortUrl: process.env.NEXT_PUBLIC_BASE_URL +id,
+      shortUrl: process.env.NEXT_PUBLIC_BASE_URL+'/f/' +id,
       userEmail: user?.primaryEmailAddress.emailAddress,
       password: '',
       userName: user?.fullName,
@@ -90,6 +91,11 @@ const router= useRouter()
 
   return (
     <div className='p-5 mx-8 md:mx-28'>
+    
+      { uploadDone &&<UploadAlert/>}
+      {uploadDone && <div className='fixed z-50 border bg-gray-50'>
+        loading---
+      </div> }
       <h2
       className='text-[20px] text-center m-5'
       >Start <span className='text-primary font-bold'>Uploading</span> the Files and share it</h2>

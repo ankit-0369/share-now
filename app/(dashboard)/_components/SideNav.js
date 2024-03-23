@@ -34,6 +34,7 @@ function SideNav({ show }) {
 
         <Link href={'/'}>
         <Image src='/logo.svg'
+        alt='logo'
           className='hidden md:block'
           width={45} height={45} />
         </Link>
@@ -45,7 +46,9 @@ function SideNav({ show }) {
 
               <Link href={item.path}>
 
-                <button className={`flex gap-2 p-4
+                <button 
+                key={item.id}
+                className={`flex gap-2 p-4
           hover:bg-gray-100 w-full
              text-gray-500   rounded-lg
              ${(activeIndex === index) ?

@@ -40,6 +40,7 @@ function TopHeader({handleSideBarShow}) {
                 }
                
                 <Image src='/logo.svg'
+                alt='logo'
                     className='md:hidden'
                     width={45}
                     height={45}

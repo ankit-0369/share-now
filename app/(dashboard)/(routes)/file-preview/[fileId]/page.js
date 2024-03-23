@@ -1,21 +1,26 @@
 "use client"
-import Image from 'next/image'
+
 import React, { useEffect, useState, useRef, useCallback } from 'react'
 import FileInfo from './FileInfo'
 import { doc, getDoc, getFirestore, updateDoc } from 'firebase/firestore'
-
-
 import app from '../../../../../firebaseConfig'
-import { Copy, CopyMinusIcon, Eye, EyeOff, EyeOffIcon } from 'lucide-react'
+import { Copy, Eye, EyeOff } from 'lucide-react'
+import GlobalApi from '../../../../_utils/GlobalApi'
+import { useUser } from '@clerk/nextjs'
+
 
 function FilePreview({ params }) {
 
     const db = getFirestore(app);
     const [file, setFile] = useState()
-    const [showPassword, setShowPassword]= useState(false)
-    const [copyState, setCopyState]= useState(false)
-   const copyRef= useRef(null)
-   const passwordRef= useRef(null)
+    const [showPassword, setShowPassword] = useState(false)
+    const [password, setPassword] = useState(false)
+    const [copyState, setCopyState] = useState(false)
+    const copyRef = useRef(null)
+    const passwordRef = useRef(null)
+    const {user}= useUser()
+    const [receiverEmail, setReceiverEmail]= useState(null)
+    const receiverEmailRef= useRef(null)
 
     useEffect(() => {
 
@@ -39,7 +44,7 @@ function FilePreview({ params }) {
 
     }
 
-    const handleCopyBtn= useCallback(()=>{
+    const handleCopyBtn = useCallback(() => {
 
         setCopyState(true)
         copyRef?.current?.select()
@@ -47,12 +52,31 @@ function FilePreview({ params }) {
         console.log("url: ", file.shortUrl);
     }, [file?.shortUrl])
 
-    const handlePassword= async() =>{
+    const handlePassword = async (e) => {
+        e.preventDefault()
         console.log("password", passwordRef.current.value)
-        const passRef= doc(db, "uploadedFiles", params.fileId)
+        const passRef = doc(db, "uploadedFiles", params.fileId)
         await updateDoc(passRef, {
             password: passwordRef?.current?.value
-          });
+        });
+    }
+
+    const sendEmail = (e) => {
+        e.preventDefault()
+        console.log("Send Email Called", receiverEmailRef?.current?.value);
+        
+        const data = {
+            receiverEmail: receiverEmailRef?.current?.value,
+            senderEmail: file?.userEmail,
+            userName: file?.userName,
+            fileName: file?.name,
+            fileType: file?.type,
+            fileSize: file?.size,
+            shortUrl: file?.shortUrl,
+            password: passwordRef?.current?.value || ""
+        }
+        console.log(data)
+        GlobalApi.sendEmail(data).then(response => console.log(response))
     }
 
     return (
@@ -72,71 +96,89 @@ function FilePreview({ params }) {
                     </div>
 
                     <form action="#" className="mx-auto mb-0 mt-8 max-w-md space-y-4">
+
+                        {/* shortUrl field */}
+
                         <div>
-                            <label htmlFor="email" className="sr-only">shorturl</label>
+                            <label htmlFor="shorturl" className="sr-only">shorturl</label>
 
                             <div className="relative">
 
                                 <div>shortUrl</div>
 
                                 <div className='flex gap-1 items-baseline justify-center'>
-                                <input
-                                    type="email"
-                                    className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
-                                    placeholder="Enter email"
-                                    value={"https://localhost:3000/" + params?.fileId}
-                                    ref={copyRef}
-                                />
+                                    <input
+                                        type="text"
+                                        className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                                        placeholder="short url"
+                                        value={file?.shortUrl}
+                                        ref={copyRef}
+                                    />
 
-                               <span className= {`absolute cursor-pointer ${copyState ? 'text-primary': 'text-gray-400'}
+                                    <span className={`absolute cursor-pointer ${copyState ? 'text-primary' : 'text-gray-400'}
                                inset-y-0 end-0 grid place-content-center px-4`}
-                               onClick={(e) => handleCopyBtn()}
-                               >
-                               <Copy/>
-                               </span>
+                                        onClick={(e) => handleCopyBtn()}
+                                    >
+                                        <Copy />
+                                    </span>
                                 </div>
 
-            
+
                             </div>
                         </div>
+
+                        {/* password field */}
 
                         <div>
                             <label htmlFor="password" className="sr-only">password</label>
-                            <div>Enable Password ?</div>
-                            <div className='flex gap-1'>
+                            <div className='flex gap-2'>
+                                <input type="checkbox"
+                                    name=""
+                                    id=""
+                                    onChange={() => setPassword(!password)}
 
-                                <div className="relative">
-                                   
-                                    <input
-                                        type= {showPassword? "text" : "password"}
-                                        className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
-                                        placeholder="Enter password"
-                                        ref={passwordRef}
-                                    />
-
-                                   
-                                    
-                                    <span
-                                    onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute inset-y-0 end-0 grid
-                                    cursor-pointer
-                                    place-content-center px-4 text-primary"
-                                    >
-
-                                    {showPassword ? <EyeOff/> : <Eye/>} 
-                                    </span>
-
-                                    
-                                </div>
-
-                                <button className='bg-primary text-white px-4 py-0 rounded-md'
-                                    onClick={() => handlePassword()}
-                                >Save</button>
-
+                                />
+                                <div>Enable Password ?</div>
                             </div>
+                            {
+                                password ? <div className='flex gap-1'>
+
+                                    <div className="relative">
+
+                                        <input
+                                            type={showPassword ? "text" : "password"}
+                                            className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                                            placeholder="Enter password"
+                                            ref={passwordRef}
+                                        />
+
+
+
+                                        <span
+                                            onClick={() => setShowPassword(!showPassword)}
+                                            className="absolute inset-y-0 end-0 grid
+                                cursor-pointer
+                                place-content-center px-4 text-primary"
+                                        >
+
+                                            {showPassword ? <EyeOff /> : <Eye />}
+                                        </span>
+
+
+                                    </div>
+
+                                    <button 
+                                    type='text'
+                                    className='bg-primary text-white px-4 py-0 rounded-md'
+                                        onClick={(e) => handlePassword(e)}
+                                    >Save</button>
+
+                                </div> : null
+                            }
 
                         </div>
 
+                        {/* send Email Field */}
 
                         <div>
                             <label htmlFor="email" className="sr-only">Email</label>
@@ -147,43 +189,28 @@ function FilePreview({ params }) {
                                     type="email"
                                     className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
                                     placeholder="Enter email"
+                                    ref={receiverEmailRef}
+
                                 />
 
-                                <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="size-4 text-gray-400"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth="2"
-                                            d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
-                                        />
-                                    </svg>
-                                </span>
                             </div>
 
-                            <button type='submit'
-                                className='bg-primary text-white m-3  text-xl p-2 px-4
-            border rounded
-        '> Send Email</button>
+                            <button type='text'
+                            className='bg-primary text-white m-3  text-xl p-2 px-4
+                        border rounded'
+                        onClick={(e) => sendEmail(e)}
+                        > Send Email</button>
 
                         </div>
-
-
 
                     </form>
 
                 </div>
-                <div className="flex justify-center items-center relative h-64 w-full sm:h-96 lg:h-full lg:w-1/2 p-2 ">
-                    {file ? <FileInfo file={file} /> : null}
+                <div
+                 className="flex justify-center items-center relative
+                     h-64 w-full sm:h-96 lg:h-full lg:w-1/2 p-2 ">
+                    {file ? <FileInfo file={file} /> : <div>no files</div>}
                 </div>
-
-
 
 
             </section>
