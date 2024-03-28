@@ -18,9 +18,9 @@ function FilePreview({ params }) {
     const [copyState, setCopyState] = useState(false)
     const copyRef = useRef(null)
     const passwordRef = useRef(null)
-    const {user}= useUser()
-    const [receiverEmail, setReceiverEmail]= useState(null)
-    const receiverEmailRef= useRef(null)
+    const { user } = useUser()
+    const [receiverEmail, setReceiverEmail] = useState(null)
+    const receiverEmailRef = useRef(null)
 
     useEffect(() => {
 
@@ -64,7 +64,7 @@ function FilePreview({ params }) {
     const sendEmail = (e) => {
         e.preventDefault()
         console.log("Send Email Called", receiverEmailRef?.current?.value);
-        
+
         const data = {
             receiverEmail: receiverEmailRef?.current?.value,
             senderEmail: file?.userEmail,
@@ -86,11 +86,11 @@ function FilePreview({ params }) {
             <section className="relative flex flex-wrap lg:h-screen lg:items-center border rounded">
                 <div className="w-full px-4 py-12 sm:px-6 sm:py-16 lg:w-1/2 lg:px-8 lg:py-24">
                     <div className="mx-auto max-w-lg text-center">
-                        <h1 className="text-2xl font-bold sm:text-3xl"> Share Now </h1>
+                        <h1 className="text-2xl font-bold sm:text-3xl text-primary"> Share Now </h1>
 
-                        <p className="mt-4 text-gray-500 text-xl">
-                            Your <strong className='text-primary'>Secret</strong> File is ready for sharing🤩 Copy the
-                            <strong className='text-primary'>Short</strong> link
+                        <p className="mt-4 text-gray-500 text-lg m-4 text-center">
+                            Your <strong className='text-primary'>Secret</strong> file is ready for sharing 🤩 copy the
+                            <strong className='text-primary'> Short</strong> link
                             or <strong className='text-primary'>Email</strong> it.
                         </p>
                     </div>
@@ -100,23 +100,26 @@ function FilePreview({ params }) {
                         {/* shortUrl field */}
 
                         <div>
-                            <label htmlFor="shorturl" className="sr-only">shorturl</label>
+                            <label htmlFor="shorturl" className="text-lg text-gray-600 m-2 ">shorturl</label>
 
                             <div className="relative">
 
-                                <div>shortUrl</div>
 
-                                <div className='flex gap-1 items-baseline justify-center'>
+                                <div className='flex gap-1 items-center justify-center m-2'>
                                     <input
                                         type="text"
-                                        className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                                        className="border-gray-200
+                                        w-full bg-gray-50 text-md focus:outline-none rounded focus:ring
+                                         active:border-primary p-2
+                                         pe-12 shadow-sm text-gray-600"
                                         placeholder="short url"
                                         value={file?.shortUrl}
                                         ref={copyRef}
+                                        readOnly
                                     />
 
-                                    <span className={`absolute cursor-pointer ${copyState ? 'text-primary' : 'text-gray-400'}
-                               inset-y-0 end-0 grid place-content-center px-4`}
+                                    <span className={`absolute text-center cursor-pointer ${copyState ? 'text-primary' : 'text-gray-400'}
+                               inset-y-0 end-0 place-content-center px-4`}
                                         onClick={(e) => handleCopyBtn()}
                                     >
                                         <Copy />
@@ -138,7 +141,7 @@ function FilePreview({ params }) {
                                     onChange={() => setPassword(!password)}
 
                                 />
-                                <div>Enable Password ?</div>
+                                <p className='text-gray-700 m-2'>Enable Password ?</p>
                             </div>
                             {
                                 password ? <div className='flex gap-1'>
@@ -147,7 +150,10 @@ function FilePreview({ params }) {
 
                                         <input
                                             type={showPassword ? "text" : "password"}
-                                            className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                                            className="  border-gray-200
+                                            w-full bg-gray-50 text-lg focus:outline-none rounded focus:ring
+                                             active:border-primary p-2
+                                             pe-12 shadow-sm text-gray-600"
                                             placeholder="Enter password"
                                             ref={passwordRef}
                                         />
@@ -167,9 +173,9 @@ function FilePreview({ params }) {
 
                                     </div>
 
-                                    <button 
-                                    type='text'
-                                    className='bg-primary text-white px-4 py-0 rounded-md'
+                                    <button
+                                        type='text'
+                                        className='bg-primary text-white px-4 py-0 rounded-md ml-2'
                                         onClick={(e) => handlePassword(e)}
                                     >Save</button>
 
@@ -184,10 +190,13 @@ function FilePreview({ params }) {
                             <label htmlFor="email" className="sr-only">Email</label>
 
                             <div className="relative">
-                                <div>Send file to Email</div>
+                                <div className='text-lg text-gray-600 m-2'>Send file to Email</div>
                                 <input
                                     type="email"
-                                    className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                                    className="border-gray-200
+                                    w-full bg-gray-50 text-lg focus:outline-none rounded focus:ring
+                                     active:border-primary p-2
+                                     pe-12 shadow-sm text-gray-600"
                                     placeholder="Enter email"
                                     ref={receiverEmailRef}
 
@@ -196,10 +205,10 @@ function FilePreview({ params }) {
                             </div>
 
                             <button type='text'
-                            className='bg-primary text-white m-3  text-xl p-2 px-4
+                                className='bg-primary text-white m-3  text-xl p-2 px-4
                         border rounded'
-                        onClick={(e) => sendEmail(e)}
-                        > Send Email</button>
+                                onClick={(e) => sendEmail(e)}
+                            > Send Email</button>
 
                         </div>
 
@@ -207,7 +216,7 @@ function FilePreview({ params }) {
 
                 </div>
                 <div
-                 className="flex justify-center items-center relative
+                    className="flex justify-center items-center relative
                      h-64 w-full sm:h-96 lg:h-full lg:w-1/2 p-2 ">
                     {file ? <FileInfo file={file} /> : <div>no files</div>}
                 </div>

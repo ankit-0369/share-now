@@ -3,7 +3,7 @@ import { UserButton } from '@clerk/nextjs'
 import Image from 'next/image'
 import { useUser } from '@clerk/nextjs'
 import React from 'react'
-
+import Dropdown from './Dropdown'
 function Header() {
 
   const { isLoaded , isSignedIn ,user} = useUser()
@@ -18,7 +18,7 @@ function Header() {
           <Image 
           src= './logo.svg' 
           alt='logo'
-          height={50}
+          height={45}
            width={45}/>
         </a>
       </div>
@@ -46,35 +46,33 @@ function Header() {
           </ul>
         </nav>
 
+
+
+
+      <div className='flex items-center gap-4'>
+
+      <div className='block md:hidden'>
+          <Dropdown/>
+        </div>
+
        {
           isLoaded&&isSignedIn ? <UserButton/> : <div className="flex items-center gap-4">
         <div className="sm:flex sm:gap-4">
           <a
-            className="rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-white shadow"
-            href="/sign-up"
+            className="rounded-md bg-primary hover:bg-purple-800 duration-300 transition ease-linear px-5 py-2.5 text-sm font-medium text-white shadow"
+            href="/sign-in"
           >
-            Get Started
+            Log In Now
           </a>
 
          
         </div>
 
-        <div className="block md:hidden">
-          <button className="rounded bg-gray-100 p-2 text-gray-600 transition hover:text-gray-600/75">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
-        </div>
       </div>
        }
+      </div>
+
+      
       </div>
     </div>
   </div>

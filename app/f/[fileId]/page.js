@@ -7,7 +7,7 @@ function DownloadFile({params}) {
 
     const db = getFirestore(app);
 
-    const [file, setFile]= useState()
+    const [file, setFile]= useState(null)
     
 
     useEffect(() => {
@@ -34,9 +34,11 @@ function DownloadFile({params}) {
   
     // console.log("parametersL  :::  ", params.fileId);
   return (
-    <div className=' bg-gray-50 flex justify-center items-center
-     h-screen w-full'>
-      <FileView />
+    <div className=' bg-gray-900 w-full h-screen  flex justify-center items-center
+      mx-auto  px-4 py-32 lg:flex '>
+      {
+        file ? <FileView  file={file} /> : <div>Loading----</div>
+      }
     </div>
   )
 }
