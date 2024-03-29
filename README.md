@@ -113,7 +113,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - **tailwind.config.js**: Tailwind CSS configuration file.
 - **tsconfig.json**: TypeScript configuration file.
 
-Feel free to customize this structure according to your project's needs.
+
 
 
 
