@@ -3,6 +3,12 @@
 @tailwind utilities;
 
 
+.dark {
+  --bg-primary: #1f2937;
+  --text-primary: #f9fafb;
+}
+
+
 /* 
 @media (prefers-color-scheme: dark) {
   :root {

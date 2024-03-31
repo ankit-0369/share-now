@@ -7,16 +7,27 @@ function FileView({file}) {
   const [disable, setDisable]= useState(true)
   const [password, setPassword]= useState("")
 
-  const HandleChange= (e) => {
-    setPassword(e.target.value)
-    console.log(password)
+  // const HandleChange= (e) => {
+  //   setPassword(e.target.value)
+  //   console.log(password)
+  //   if(file.password === password){
+  //     setDisable(!disable)
+  //     return;
+  //   }else{
+  //     return
+  //   }
+
+  // }
+
+  const handleUnlock= ()=>{
     if(file.password === password){
-      setDisable(!disable)
+      setDisable(false)
       return;
     }else{
-      return
+      console.log("wrong Password")
+      setDisable(true)
+      return;
     }
-
   }
 
   return (
@@ -37,10 +48,19 @@ function FileView({file}) {
           name="password"
            id="pass" 
            placeholder='Enter the Password'
-           onChange={(e) => HandleChange(e)}
+           onChange={(e) => setPassword(e.target.value)}
            />
         </div>
 
+        <button 
+        onClick={handleUnlock}
+        className='block  rounded bg-primary
+        px-12 py-3 text-lg font-medium
+         text-white shadow hover:bg-purple-800 transition duration-300 ease-linear 
+         focus:outline-none
+          focus:ring  sm:w-auto disabled:bg-gray-500 text-center'>
+          Unlock File
+        </button>
 
        <button 
         className='block  rounded bg-primary
@@ -55,6 +75,12 @@ function FileView({file}) {
          >Download File <span><FolderDown /></span></a>}
         </button>
       
+      <a href="https://source.unsplash.com/random/300×300/?rajasthan, palaces, natural-scenes" target='_BLANK'>
+        
+      <button className=''>
+          Download
+        </button>
+      </a>
 
       </div>
      

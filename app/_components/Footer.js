@@ -1,12 +1,15 @@
+"use client"
 import Image from 'next/image'
 import React from 'react'
+import { useSelector } from 'react-redux'
 
 function Footer() {
+  const isDarkMode= useSelector((theme) => (theme.ui.isDarkMode))
   return (
     <div>
       
 
-      <footer className="bg-gray-100">
+      <footer className="bg-gray-100 dark:bg-blue-950 dark:text-[#f9fafb]">
   <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
     <div className="flex justify-center items-center gap-3 text-primary font-bold">
      <Image
@@ -22,22 +25,22 @@ function Footer() {
 
     </div>
 
-    <p className="mx-auto mt-6 max-w-md text-center leading-relaxed text-gray-500">
+    <p className="mx-auto mt-6 max-w-md text-center leading-relaxed text-gray-500 dark:text-[#f9fafb]">
       Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt consequuntur amet culpa cum
       itaque neque.
     </p>
 
     <ul className="mt-12 flex flex-wrap justify-center gap-6 md:gap-8 lg:gap-12">
       <li>
-        <a className="text-gray-700 transition hover:text-gray-700/75" href="/about-us"> About Us </a>
+        <a className="text-gray-700 dark:text-[#f9fafb] transition hover:text-gray-700/75" href="/about-us"> About Us </a>
       </li>
 
       <li>
-        <a className="text-gray-700 transition hover:text-gray-700/75" href="/contact-us"> Contact Us </a>
+        <a className="text-gray-700 dark:text-[#f9fafb] transition hover:text-gray-700/75" href="/contact-us"> Contact Us </a>
       </li>
 
       <li>
-        <a className="text-gray-700 transition hover:text-gray-700/75" href="/upload"> Dashboard </a>
+        <a className="text-gray-700 dark:text-[#f9fafb] transition hover:text-gray-700/75" href="/upload"> Dashboard </a>
       </li>
 
     </ul>
@@ -66,7 +69,7 @@ function Footer() {
           href="https://www.instagram.com/_k.ankit__/"
           rel="noreferrer"
           target="_blank"
-          className="text-gray-700 transition hover:text-gray-700/75"
+          className="text-gray-700 dark:text-[#f9fafb] transition hover:text-gray-700/75"
         >
           <span className="sr-only">Instagram</span>
           <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -84,7 +87,7 @@ function Footer() {
           href="https://twitter.com/k_ankit1001"
           rel="noreferrer"
           target="_blank"
-          className="text-gray-700 transition hover:text-gray-700/75"
+          className="text-gray-700 dark:text-[#f9fafb] transition hover:text-gray-700/75"
         >
           <span className="sr-only">Twitter</span>
           <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -100,7 +103,7 @@ function Footer() {
           href="https://github.com/ankit-0369/share-now"
           rel="noreferrer"
           target="_blank"
-          className="text-gray-700 transition hover:text-gray-700/75"
+          className="text-gray-700 transition dark:text-[#f9fafb] hover:text-gray-700/75"
         >
           <span className="sr-only">GitHub</span>
           <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
