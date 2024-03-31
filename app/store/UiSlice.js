@@ -1,12 +1,12 @@
-// 'use client'
+'use client'
 import { createSlice } from "@reduxjs/toolkit";
 
-
+const isLocalStorageAvailable = typeof window !== 'undefined' && window.localStorage;
 const initialState = {
   
-    isDarkMode: JSON.parse(localStorage.getItem("isDarkMode")) != undefined
-    ? JSON.parse(localStorage.getItem("isDarkMode"))
-    : false
+  isDarkMode: isLocalStorageAvailable
+  ? JSON.parse(localStorage.getItem("isDarkMode")) || false
+  : false
   };
   export const uiSlice = createSlice({
     name: "ui",
